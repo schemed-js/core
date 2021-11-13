@@ -14,6 +14,7 @@ export type Scheme = {
 
 export type Tokenizer = (template: string) => Tokens | Promise<Tokens>;
 export type Loader = (template: string) => Node[] | Promise<Node[]>;
+export type Transpiler = (nodes: Node[]) => string | Promise<string>;
 
 export async function load(
 	template: string,
