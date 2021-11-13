@@ -7,6 +7,16 @@
 
 ---
 
+## [0.1.0] - 2021-11-13
+
+### 🆕 Added
+
+-   🔡 TypeScript development environment
+-   🔡 Git and NPM ignore files
+-   📄 README file (Updates won't be listed here)
+
+---
+
 ## [0.0.1] - 2021-11-13
 
 ### 🆕 Added

@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"module": "CommonJS",
+		"noImplicitAny": true,
+		"outDir": "dist",
+		"target": "ES3"
+	},
+	"include": ["src"]
+}
