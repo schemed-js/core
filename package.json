@@ -1,0 +1,20 @@
+{
+	"name": "@schemed/core",
+	"version": "0.0.1",
+	"description": "Modular TypeScript template engine",
+	"keywords": [
+		"typescript",
+		"javascript",
+		"string",
+		"template",
+		"transpile",
+		"token",
+		"tokenize"
+	],
+	"license": "MIT",
+	"author": "https://github.com/schemed-js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/schemed-js/core.git"
+	}
+}
