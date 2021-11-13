@@ -7,6 +7,14 @@
 
 ---
 
+## [0.3.1] - 2021-11-13
+
+### 🆕 Added
+
+-   🔡 Transpile function and Data type
+
+---
+
 ## [0.3.0] - 2021-11-13
 
 ### 🆕 Added

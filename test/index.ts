@@ -1,8 +1,8 @@
-import type { Loader, Node, Tokenizer, Tokens } from '../dist';
-import { load } from '../dist';
+import { Loader, Node, Tokenizer, Tokens, Transpiler } from '../dist';
+import { load, transpile } from '../dist';
 
 const template =
-	'this,is,one,sentence|and,{{first}},and,{{second}},are,injected,data,in,another,sentence.';
+	'hey|this,is,one,sentence|and,{{first}},and,{{second}},are,injected,data,in,another,sentence';
 
 const loader: Loader = (template) => {
 	const nodes: Node[] = [];
@@ -37,6 +37,37 @@ const tokenizer: Tokenizer = (template) => {
 	return tokens;
 };
 
+const transpiler: Transpiler = (nodes) => {
+	const sentences: string[] = [];
+
+	for (const sentence of nodes) {
+		const [firstWord, ...words] = sentence.children.map(
+			(word) => word.content
+		);
+
+		sentences.push(
+			firstWord.charAt(0).toUpperCase() +
+				firstWord.slice(1).toLowerCase() +
+				(words && words.length > 0 ? ' ' : '') +
+				(words || []).map((word) => word.toLowerCase()).join(' ') +
+				'.'
+		);
+	}
+
+	return sentences.join('\n');
+};
+
+const data = {
+	first: 'FIRST',
+	second: 'SECOND',
+};
+
 load(template, loader, tokenizer)
-	.then((scheme) => console.log(JSON.stringify(scheme, null, 2)))
+	.then((scheme) =>
+		transpile(scheme, transpiler, data)
+			.then((transpiled) => console.log(transpiled))
+			.catch((error) => {
+				throw error;
+			})
+	)
 	.catch((error) => console.error(new Date(), error));

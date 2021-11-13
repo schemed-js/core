@@ -1,6 +1,6 @@
 {
 	"name": "@schemed/core",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "Modular TypeScript template engine",
 	"keywords": [
 		"typescript",
