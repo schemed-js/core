@@ -7,6 +7,16 @@
 
 ---
 
+## [0.2.2] - 2021-11-13
+
+### 🆕 Added
+
+-   🔡 Load function
+-   🔡 Test environment (Updates won't be listed here)
+
+---
+
+
 ## [0.2.1] - 2021-11-13
 
 ### 🆕 Added

@@ -14,3 +14,19 @@ export type Scheme = {
 
 export type Tokenizer = (template: string) => Tokens | Promise<Tokens>;
 export type Loader = (template: string) => Node[] | Promise<Node[]>;
+
+export async function load(
+	template: string,
+	loader: Loader,
+	...dataTokenizers: Tokenizer[]
+) {
+	let tokens: Tokens = {};
+
+	for (const tokenizer of dataTokenizers)
+		tokens = { ...tokens, ...(await tokenizer(template)) };
+
+	return <Scheme>{
+		tokens,
+		content: loader(template),
+	};
+}
