@@ -7,6 +7,14 @@
 
 ---
 
+## [0.2.1] - 2021-11-13
+
+### 🆕 Added
+
+-   🔡 Data Tokenizer and Template Scheme types
+
+---
+
 ## [0.2.0] - 2021-11-13
 
 ### 🆕 Added
