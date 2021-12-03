@@ -1,16 +1,23 @@
 {
 	"name": "@schemed/core",
 	"version": "0.3.1",
-	"description": "Modular TypeScript template engine",
+	"description": "Abstract TypeScript template engine",
 	"keywords": [
 		"typescript",
 		"javascript",
+		"abstract",
+		"modular",
 		"string",
 		"template",
+		"engine",
+		"load",
 		"transpile",
 		"token",
 		"tokenize"
 	],
+	"engines": {
+		"node": ">=0.10.0"
+	},
 	"license": "MIT",
 	"author": "https://github.com/schemed-js",
 	"repository": {
@@ -21,11 +28,21 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc; terser --compress --mangle --output dist/index.js -- dist/index.js",
-		"test": "npm run build; ts-node --project test/tsconfig.json test"
+		"test": "jest"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.16.0",
+		"@babel/preset-env": "^7.16.4",
+		"@babel/preset-typescript": "^7.16.0",
+		"@types/jest": "^27.0.3",
+		"babel-jest": "^27.4.2",
+		"jest": "^27.4.3",
+		"np": "^7.6.0",
 		"terser": "^5.9.0",
 		"ts-node": "^10.4.0",
 		"typescript": "^4.4.4"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

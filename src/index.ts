@@ -1,3 +1,6 @@
+export type AsyncReturn<ReturnType> = ReturnType | Promise<ReturnType>;
+export type StringMap = (content: string) => AsyncReturn<string>;
+
 export type Node = {
 	id: string;
 	attributes?: { [key: string]: any };
@@ -12,13 +15,11 @@ export type Scheme = {
 	tokens?: Tokens;
 };
 
-export type StringMap = (content: string) => string | Promise<string>;
-
 export type Data = { [key: string]: string | StringMap };
 
-export type Tokenizer = (template: string) => Tokens | Promise<Tokens>;
-export type Loader = (template: string) => Node[] | Promise<Node[]>;
-export type Transpiler = (nodes: Node[]) => string | Promise<string>;
+export type Tokenizer = (template: string) => AsyncReturn<Tokens>;
+export type Loader = (template: string) => AsyncReturn<Node[]>;
+export type Transpiler = (nodes: Node[]) => AsyncReturn<string>;
 
 export async function load(
 	template: string,
@@ -56,4 +57,28 @@ export async function transpile(
 		}
 
 	return transpiled;
+}
+
+export type SchemedConfiguration = {
+	loader: Loader;
+	transpiler: Transpiler;
+	tokenizers?: Tokenizer[];
+};
+
+export class Schemed {
+	constructor(private configuration: SchemedConfiguration) {
+		this.configuration.tokenizers ||= [];
+	}
+
+	load(template: string) {
+		return load(
+			template,
+			this.configuration.loader,
+			...this.configuration.tokenizers
+		);
+	}
+
+	transpile(scheme: Scheme, data: Data) {
+		return transpile(scheme, this.configuration.transpiler, data);
+	}
 }

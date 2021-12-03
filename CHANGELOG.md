@@ -1,67 +1,65 @@
-# 📜 [@Schemed/Core](https://github.com/schemed-js/core) Changelog
+<div align="center">
+    <img alt="Schemed Logo" width="64" src="https://raw.githubusercontent.com/schemed-js/brand/master/dark/main-fill.svg">
+    <h1>
+        <a href="https://github.com/schemed-js/core">
+            @Schemed/Core
+        </a>
+        <span>Changelog</span>
+    </h1>
+</div>
 
--   All notable changes to this project will be documented in this file.
+-   All notable changes to the source code of this project will be documented in this file.
+-   **This file does not include any changes that is not made to the source code (Tests, Logs, Documentations, Assets, etc.).**
 -   The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
--   This package is under [MIT license](https://en.wikipedia.org/wiki/MIT_License) ©️ Copyright (c) 2021 [Farbod Nikoukar](https://github.com/farnik)
+-   This package is under [MIT license](https://en.wikipedia.org/wiki/MIT_License)
 
 ---
 
-## [0.3.1] - 2021-11-13
+## **0.4.0** - 2021-12-04
 
-### 🆕 Added
+### Added
 
--   🔡 Transpile function and Data type
-
----
-
-## [0.3.0] - 2021-11-13
-
-### 🆕 Added
-
--   🔡 Transpiler type
+-   Constructor
+-   Constructor configurations
+-   Publish environment
 
 ---
 
-## [0.2.2] - 2021-11-13
+## **0.3.1** - 2021-11-13
 
-### 🆕 Added
+### Added
 
--   🔡 Load function
--   🔡 Test environment (Updates won't be listed here)
-
----
-
-## [0.2.1] - 2021-11-13
-
-### 🆕 Added
-
--   🔡 Data Tokenizer and Template Scheme types
+-   Transpile function and Data type
 
 ---
 
-## [0.2.0] - 2021-11-13
+## **0.3.0** - 2021-11-13
 
-### 🆕 Added
+### Added
 
--   🔡 Node and Loader types
-
----
-
-## [0.1.0] - 2021-11-13
-
-### 🆕 Added
-
--   🔡 TypeScript development environment
--   🔡 Git and NPM ignore files
--   📄 README file (Updates won't be listed here)
+-   Transpilers
 
 ---
 
-## [0.0.1] - 2021-11-13
+## **0.2.2** - 2021-11-13
 
-### 🆕 Added
+### Added
 
--   📦 Package description file (Updates won't be listed here)
--   📄 This CHANGELOG file (Updates won't be listed here)
--   📄 MIT license file
+-   Load function
+
+---
+
+## **0.2.1** - 2021-11-13
+
+### Added
+
+-   Data Tokenizers and Template Schemes
+
+---
+
+## **0.2.0** - 2021-11-13
+
+### Added
+
+-   Nodes and Loaders
