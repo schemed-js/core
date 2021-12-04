@@ -16,8 +16,20 @@
       <img alt="TypeScript language badge" src="https://img.shields.io/badge/language-typescript-blue">
     </a>
     <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/schemed-js/core">
+    <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/min/@schemed/core">
     <a href="https://nodejs.org/">
       <img alt="Node supported version badge" src="https://img.shields.io/node/v/@schemed/core">
+    </a>
+    <a href="https://npmjs.com/package/@schemed/core">
+      <img alt="NPM package version badge" src="https://img.shields.io/npm/v/@schemed/core?label=version">
+    </a>
+    <a href="https://npmjs.com/package/@schemed/core">
+      <img alt="NPM downloads badge" src="https://img.shields.io/npm/dt/@schemed/core">
+    </a>
+  </p>
+  <p>
+    <a href="https://github.com/schemed-js/core/stargazers">
+      <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/schemed-js/core?style=social">
     </a>
   </p>
 </div>

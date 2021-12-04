@@ -21,6 +21,12 @@
 Exported `load` and `transpile` functions are wrapped in a class. It asks for a loader, a transpiler, and optional tokenizers to keep and use for load or transpile functions:
 
 ```ts
+type SchemedConfiguration = {
+	loader: Loader;
+	transpiler: Transpiler;
+	tokenizers?: Tokenizer[];
+};
+
 class Schemed {
 	constructor(private configuration: SchemedConfiguration): void;
 

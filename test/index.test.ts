@@ -106,4 +106,6 @@ test('Load', async () =>
 test('Transpile', async () =>
 	expect(
 		await templator.transpile(await templator.load(template), data)
-	).toStrictEqual('Hey.\nThis is one sentence.\nAnd FIRST and SECOND are injected data in SECOND sentence.'));
+	).toStrictEqual(
+		'Hey.\nThis is one sentence.\nAnd FIRST and SECOND are injected data in SECOND sentence.'
+	));
