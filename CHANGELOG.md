@@ -16,6 +16,20 @@
 
 ---
 
+## **1.0.0** - 2022-03-25
+
+### Added
+
+-   ES3 IIFE release for browser
+-   Configurable **data injector**
+
+### Modified
+
+-   **Node** type is now fully abstract
+-   Map **tokens** object with generic types
+-   Better ES6 ECMAModule and ES3 CommonJS releases for NodeJS and
+-   [New usage methods](./docs/usage/README.md)
+
 ## **0.4.0** - 2021-12-04
 
 ### Added

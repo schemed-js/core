@@ -1,84 +1,105 @@
-export type AsyncReturn<ReturnType> = ReturnType | Promise<ReturnType>;
-export type StringMap = (content: string) => AsyncReturn<string>;
+export type PromiseOrValue<Value> = Promise<Value> | Value;
 
-export type Node = {
-	id: string;
-	attributes?: { [key: string]: any };
-	children?: Node[];
-	content?: string;
+export type Loader<InputTemplate, Node> = (
+	template: InputTemplate
+) => PromiseOrValue<Node[]>;
+
+export type Tokens<Key, Query> = Map<Key, Query>;
+
+export type Tokenizer<InputTemplate, Key, Query> = (
+	template: InputTemplate
+) => PromiseOrValue<Tokens<Key, Query>>;
+
+export type Scheme<Node, Key, Query> = {
+	nodes?: Node[];
+	tokens?: Tokens<Key, Query>;
 };
 
-export type Tokens = { [key: string]: string[] };
+export type Transpiler<OutputTemplate, Node> = (
+	nodes: Node[]
+) => PromiseOrValue<OutputTemplate>;
 
-export type Scheme = {
-	content?: Node[];
-	tokens?: Tokens;
+export type Data<OutputTemplate, Key, Query> = Map<
+	Key,
+	OutputTemplate | ((query: Query) => PromiseOrValue<OutputTemplate>)
+>;
+
+export type Injector<OutputTemplate, Key, Query> = (
+	template: OutputTemplate,
+	tokens: Tokens<Key, Query>,
+	data: Data<OutputTemplate, Key, Query>
+) => PromiseOrValue<OutputTemplate>;
+
+export type Configuration<InputTemplate, OutputTemplate, Node, Key, Query> = {
+	loader: Loader<InputTemplate, Node>;
+	transpiler: Transpiler<OutputTemplate, Node>;
+	tokenizers?: Tokenizer<InputTemplate, Key, Query>[];
+	injector?: Injector<OutputTemplate, Key, Query>;
 };
 
-export type Data = { [key: string]: string | StringMap };
+export class Schemed<InputTemplate, OutputTemplate, Node, Key, Query> {
+	private loader: Loader<InputTemplate, Node>;
+	private transpiler: Transpiler<OutputTemplate, Node>;
+	private tokenizers: Tokenizer<InputTemplate, Key, Query>[];
+	private injector: Injector<OutputTemplate, Key, Query>;
 
-export type Tokenizer = (template: string) => AsyncReturn<Tokens>;
-export type Loader = (template: string) => AsyncReturn<Node[]>;
-export type Transpiler = (nodes: Node[]) => AsyncReturn<string>;
+	constructor(
+		configuration: Configuration<
+			InputTemplate,
+			OutputTemplate,
+			Node,
+			Key,
+			Query
+		>
+	) {
+		this.loader = configuration.loader;
+		this.transpiler = configuration.transpiler;
+		this.tokenizers = configuration.tokenizers || [];
+		this.injector = configuration.injector;
+	}
 
-export async function load(
-	template: string,
-	loader: Loader,
-	...dataTokenizers: Tokenizer[]
-) {
-	let tokens: Tokens = {};
+	async load(template: InputTemplate) {
+		let tokens: Tokens<Key, Query> = new Map();
 
-	for (const tokenizer of dataTokenizers || [])
-		tokens = { ...tokens, ...(await tokenizer(template)) };
-
-	return <Scheme>{
-		tokens,
-		content: loader(template),
-	};
-}
-
-export async function transpile(
-	scheme: Scheme,
-	transpiler: Transpiler,
-	data?: Data
-) {
-	let transpiled = await transpiler(scheme.content);
-
-	if (data)
-		for (const [key, tags] of Object.entries(scheme.tokens)) {
-			for (const search of tags) {
-				transpiled = transpiled.replace(
-					new RegExp(search, 'g'),
-					typeof data[key] === 'function'
-						? (data[key] as Function)(search)
-						: data[key]
-				);
-			}
+		for (const tokenizer of this.tokenizers) {
+			const extractedTokens = await tokenizer(template);
+			for (const [key, value] of Array.from(extractedTokens.entries()))
+				tokens.set(key, value);
 		}
 
-	return transpiled;
+		const scheme: Scheme<Node, Key, Query> = {
+			tokens,
+			nodes: await this.loader(template),
+		};
+
+		return scheme;
+	}
+
+	async transpile(
+		scheme: Scheme<Node, Key, Query>,
+		data: Data<OutputTemplate, Key, Query>
+	) {
+		const transpiled = await this.transpiler(scheme.nodes);
+		return data && scheme.tokens && this.injector
+			? await this.injector(transpiled, scheme.tokens, data)
+			: transpiled;
+	}
 }
 
-export type SchemedConfiguration = {
-	loader: Loader;
-	transpiler: Transpiler;
-	tokenizers?: Tokenizer[];
-};
-
-export class Schemed {
-	constructor(private configuration: SchemedConfiguration) {
-		this.configuration.tokenizers ||= [];
-	}
-
-	load(template: string) {
-		return load(
-			template,
-			this.configuration.loader,
-			...this.configuration.tokenizers
-		);
-	}
-
-	transpile(scheme: Scheme, data: Data) {
-		return transpile(scheme, this.configuration.transpiler, data);
-	}
+export function createSchemedInstance<
+	InputTemplate,
+	OutputTemplate,
+	Node,
+	Key,
+	Query
+>(
+	configuration: Configuration<
+		InputTemplate,
+		OutputTemplate,
+		Node,
+		Key,
+		Query
+	>
+) {
+	return new Schemed(configuration);
 }

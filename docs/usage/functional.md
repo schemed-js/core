@@ -12,53 +12,26 @@
 
 ---
 
-[**Documentation**](../) > [**Usage**](README.md) > **Functional**
+[**Documentation**](../README.md) > [**Usage**](README.md) > **Functional**
 
 ---
 
 ## Explain
 
-### Schemes
-
-Extracted nodes and tokens from a template will be stored in a Scheme object after load to be passed to a transpiler:
+**Schemed** exports a function named **createSchemedInstance**. It constructs a **Schemed** instance for functional usage:
 
 ```ts
-type Scheme = {
-	content?: Node[];
-	tokens?: Tokens;
-};
-```
+import type { Configuration, Schemed } from '@schemed/core';
 
-### Data
-
-Data objects contain content for each token id. It can be a string, or a function, or Promise returning a string:
-
-```ts
-type Data = { [key: string]: string | StringMap };
-```
-
-### Load
-
-Schemed exports a `load` function that converts a template to a scheme using provided loader and tokenizers:
-
-```ts
-async function load(
-	template: string,
-	loader: Loader,
-	...dataTokenizers: Tokenizer[]
-): Scheme | Promise<Scheme>;
-```
-
-### Transpile
-
-To export final content from a scheme with given data, you can use the `transpile` function:
-
-```ts
-export async function transpile(
-	scheme: Scheme,
-	transpiler: Transpiler,
-	data?: Data
-): string | Promise<string>;
+function createSchemedInstance<InputTemplate, OutputTemplate, Node, Key, Query>(
+	configuration: Configuration<
+		InputTemplate,
+		OutputTemplate,
+		Node,
+		Key,
+		Query
+	>
+): Schemed<InputTemplate, OutputTemplate, Node, Key, Query>;
 ```
 
 ## Examples
@@ -66,17 +39,48 @@ export async function transpile(
 As simple as it sounds:
 
 ```ts
-import { load, transpile } from '@schemed/core';
+import type { Scheme } from '@schemed/core';
 
-const template = `
-span
-    span Hello
-    b {{ name }}
-`;
+import type {
+	InputTemplate,
+	OutputTemplate,
+	Node,
+	Key,
+	Query,
+} from 'your-code';
 
-const data = { name: 'World' };
+import { createSchemedInstance } from '@schemed/core';
 
-const scheme = load(template, pugLoader, handlebarsTokenizer);
+import {
+	loader,
+	transpiler,
+	tokenizer,
+	injector,
+	template,
+	data,
+} from 'your-code';
 
-const content = transpile(scheme, data);
+const engine = createSchemedInstance<
+	InputTemplate,
+	OutputTemplate,
+	Node,
+	Key,
+	Query
+>({
+	loader,
+	transpiler,
+	tokenizer,
+	injector,
+});
+
+const loaded: Scheme<Node, Key, Query> = await engine.load(template);
+const transpiled: OutputTemplate = await engine.transpile(loaded, data);
 ```
+
+---
+
+< Prev Page
+[Object Oriented](object-oriented.md)
+
+Next Page >
+[API Refrence](../api-refrence.md)

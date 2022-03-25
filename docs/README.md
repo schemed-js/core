@@ -18,12 +18,21 @@
 
 ## Table of Contents
 
-- [Installation](installation/)
-- [Concepts](concepts/)
-    - [Tokenizers](concepts/tokenizers.md)
-    - [Loaders](concepts/laoders.md)
-    - [Transpilers](concepts/transpilers.md)
-- [Usage](usage/)
-    - [Functional](usage/functional.md)
+- [Installation](installation.md)
+    - [NodeJS](installation.md#nodejs)
+    - [Browsers](installation.md#browsers)
+- [Concepts](concepts/README.md)
+    - [Tokenizer](concepts/tokenizer.md)
+    - [Loader](concepts/loader.md)
+    - [Injector](concepts/injector.md)
+    - [Transpiler](concepts/transpiler.md)
+    - [Scheme](concepts/scheme.md)
+- [Usage](usage/README.md)
     - [Object Oriented](usage/object-oriented.md)
-- [API Refrence](api-refrence/)
+    - [Functional](usage/functional.md)
+- [API Refrence](api-refrence.md)
+
+---
+
+Next Page >
+[Installation](installation.md)

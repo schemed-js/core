@@ -1,6 +1,6 @@
 {
 	"name": "@schemed/core",
-	"version": "0.4.0",
+	"version": "1.0.0",
 	"description": "Abstract TypeScript template engine",
 	"keywords": [
 		"typescript",
@@ -16,7 +16,7 @@
 		"tokenize"
 	],
 	"engines": {
-		"node": ">=0.10.0"
+		"node": ">=0.12.0"
 	},
 	"license": "MIT",
 	"author": "https://github.com/schemed-js",
@@ -24,22 +24,33 @@
 		"type": "git",
 		"url": "git+https://github.com/schemed-js/core.git"
 	},
-	"main": "dist/index.js",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"unpkg": "dist/index.js",
+	"exports": {
+		"import": "./dist/index.mjs",
+		"require": "./dist/index.cjs"
+	},
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc; terser --compress --mangle --output dist/index.js -- dist/index.js",
+		"build": "rimraf dist && rollup --config rollup.config.ts --configPlugin typescript && tsc",
 		"test": "jest"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.0",
 		"@babel/preset-env": "^7.16.4",
 		"@babel/preset-typescript": "^7.16.0",
+		"@rollup/plugin-typescript": "^8.3.0",
 		"@types/jest": "^27.0.3",
 		"babel-jest": "^27.4.2",
 		"jest": "^27.4.3",
-		"np": "^7.6.0",
+		"rimraf": "^3.0.2",
+		"rollup": "^2.61.1",
+		"rollup-plugin-license": "^2.6.0",
+		"rollup-plugin-terser": "^7.0.2",
 		"terser": "^5.9.0",
 		"ts-node": "^10.4.0",
+		"tslib": "^2.3.1",
 		"typescript": "^4.4.4"
 	},
 	"publishConfig": {

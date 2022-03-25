@@ -12,26 +12,47 @@
 
 ---
 
-[**Documentation**](../) > [**Usage**](README.md) > **Object Oreinted**
+[**Documentation**](../README.md) > [**Usage**](README.md) > **Object Oreinted**
 
 ---
 
 ## Explain
 
-Exported `load` and `transpile` functions are wrapped in a class. It asks for a loader, a transpiler, and optional tokenizers to keep and use for load or transpile functions:
+**Schemed** exports a constructor, which asks for a [Loader](../concepts/loader.md), a [Transpiler](../concepts/transpiler.md) and optional [injector](../concepts/injector.md) and [tokenizer](../concepts/tokenizer.md)s and will give you a **load** and a **transpile** function:
 
 ```ts
-type SchemedConfiguration = {
-	loader: Loader;
-	transpiler: Transpiler;
-	tokenizers?: Tokenizer[];
+import type {
+	Loader,
+	Transpiler,
+	Tokenizer,
+	Injector,
+	Scheme,
+} from '@schemed/core';
+
+type Configuration<InputTemplate, OutputTemplate, Node, Key, Query> = {
+	loader: Loader<InputTemplate, Node>;
+	transpiler: Transpiler<OutputTemplate, Node>;
+	tokenizers?: Tokenizer<InputTemplate, Key, Query>[];
+	injector?: Injector<OutputTemplate, Key, Query>;
 };
 
-class Schemed {
-	constructor(private configuration: SchemedConfiguration): void;
+class Schemed<InputTemplate, OutputTemplate, Node, Key, Query> {
+	constructor(
+		private configuration: Configuration<
+			InputTemplate,
+			OutputTemplate,
+			Node,
+			Key,
+			Query
+		>
+	): void;
 
-	load(template: string): Scheme;
-	transpile(scheme: Scheme, data: Data): string;
+	load(template: InputTemplate): Promise<Scheme<Node, Key, Query>>;
+
+	transpile(
+		scheme: Scheme<Node, Key, Query>,
+		data?: Data<OutputTemplate, Key, Query>
+	): Promise<OutputTemplate>;
 }
 ```
 
@@ -40,14 +61,41 @@ class Schemed {
 Couldn't be easier:
 
 ```ts
+import type { Scheme } from '@schemed/core';
+
+import type {
+	InputTemplate,
+	OutputTemplate,
+	Node,
+	Key,
+	Query,
+} from 'your-code';
+
 import { Schemed } from '@schemed/core';
 
-const templator = new Schemed({
+import {
+	loader,
+	transpiler,
+	tokenizer,
+	injector,
+	template,
+	data,
+} from 'your-code';
+
+const engine = new Schemed<InputTemplate, OutputTemplate, Node, Key, Query>({
 	loader,
 	transpiler,
 	tokenizer,
 });
 
-const loaded = await templator.load(template);
-const transpiled = await templator.transpile(loaded, data);
+const loaded: Scheme<Node, Key, Query> = await engine.load(template);
+const transpiled: OutputTemplate = await engine.transpile(loaded, data);
 ```
+
+---
+
+< Prev Page
+[Usage](README.md)
+
+Next Page >
+[Functional](functional.md)

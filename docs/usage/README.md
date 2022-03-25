@@ -12,11 +12,19 @@
 
 ---
 
-[**Documentation**](../) > **Usage**
+[**Documentation**](../README.md) > **Usage**
 
 ---
 
 ## Methods
 
--   [Functional](functional.md)
 -   [Object Oriented](object-oriented.md)
+-   [Functional](functional.md)
+
+---
+
+< Prev Page
+[Transpiler](../concepts/transpiler.md)
+
+Next Page >
+[Object Oriented](object-oriented.md)
